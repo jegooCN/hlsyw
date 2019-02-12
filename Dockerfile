@@ -6,6 +6,7 @@ MAINTAINER jegoo, jegoo_cn@hotmial.com
 WORKDIR /opt/hlsyw
 # 复制python的第三方库文件requirements.txt，并安装所有第三方库
 COPY Pipfile ./
+COPY Pipfile.lock ./
 RUN pip install -p
 # 复制本地的源文件到容器中
 # COPY . .
