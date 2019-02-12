@@ -23,4 +23,4 @@ class Grade(db.Model):
         :param grade_id:
         :return:
         """
-        return db.session.query(Grade).filter(Grade.grade_id == grade_id).first()
+        return cls.query.filter(Grade.grade_id == grade_id).first()

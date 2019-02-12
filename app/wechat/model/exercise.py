@@ -29,7 +29,7 @@ class Exercise(db.Model):
         :param grade: 年级对象
         :return:
         """
-        return cls.query().filter(
+        return cls.query.filter(
             and_(and_(Exercise.release_date == release_date, Exercise.grade == grade), Exercise.state == 1)).first()
 
     @classmethod

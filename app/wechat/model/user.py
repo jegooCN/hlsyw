@@ -28,11 +28,11 @@ class WechatUser(db.Model):
         :param user_id:
         :return:
         """
-        return cls.query().filter(WechatUser.user_id == user_id).first()
+        return cls.query.filter(WechatUser.user_id == user_id).first()
 
     @classmethod
     def get_all(cls):
-        return cls.query().all()
+        return cls.query.all()
 
     @classmethod
     def create(cls, user_id, parent_name=None, student_name=None, wechat_name=None, grade=None,
