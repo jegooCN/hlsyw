@@ -40,8 +40,6 @@ services:
       - /opt/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - hlsyw_net
-    depends_on:
-      - hlsyw
 
 networks:
   hlsyw_net:
