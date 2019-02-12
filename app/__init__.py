@@ -41,9 +41,8 @@ def create_app():
 
 
 def register_buleprint(app):
-    # from .wechat import wechat
-    # app.register_blueprint(wechat)
-    pass
+    from .wechat import wechat
+    app.register_blueprint(wechat)
 
 
 def init_dbs_data(db, app):
