@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>每日一题上传</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='iosSelect/iosSelect.css') }}">
+    <script src="{{ url_for('static', filename='iosSelect/iosSelect.js') }}"></script>
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <style>
+        form {
+            width: 90%;
+            margin: 20px auto 0;
+        }
+
+        meter, input, .pc-box {
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 16px;
+            padding-left: 10px;
+            box-sizing: border-box;
+        }
+
+        meter {
+            padding: 0;
+        }
+
+        .pc-box {
+            text-align: center;
+        }
+
+        .btn-box {
+            text-align: center;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            font-size: 18px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            padding: 5px 0;
+            background-color: #eeeeee;
+        }
+
+        .select {
+            height: 36px;
+            line-height: 36px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+        label {
+            color: #f1904a;
+        }
+    </style>
+</head>
+
+<body>
+{% if msg %}
+<div style="text-align: center;">
+    <h3 style="color: red;">{{ msg }}</h3>
+</div>
+{% endif %}
+<form action="create_exercise" method="post" id="create_exercise" enctype="multipart/form-data">
+    <fieldset>
+        <legend>每日一题上传</legend>
+        <div style="width: 100%;">
+            <span style="color: #f1904a;">选择日期（必选）：</span>
+            <input type="date" class="info-input time" name="release_date" id="release_date">
+        </div>
+        <label for="grade">所属年级（必选）：</label>
+        <div class="pc-box">
+            <input type="hidden" name="grade_id" id="grade" value="">
+            <span id="show_grade" class="select">点击选择年级</span>
+        </div>
+        <label for="grade">上传每日一题图片（必填）：</label>
+        <input type="file" accept="image/*;capture=camera" class="select" id="img" name="img" value="">
+        <div class="btn-box">
+            <a id="submit" class="btn-submit btn-success">提交</a>
+        </div>
+    </fieldset>
+</form>
+<script>
+    $(document).ready(function () {
+        var time = new Date();
+        var day = ("0" + time.getDate()).slice(-2);
+        var month = ("0" + (time.getMonth() + 1)).slice(-2);
+        var today = time.getFullYear() + "-" + (month) + "-" + (day);
+        $('#release_date').val(today);
+    });
+
+    var showDom = document.querySelector('#show_grade');// 绑定一个触发元素
+    var valDom = document.querySelector('#grade');  // 绑定一个存储结果的元素
+    showDom.addEventListener('click', function () {  // 添加监听事件
+        var val = showDom.dataset['id'];             // 获取元素的data-id属性值
+        var title = showDom.dataset['value'];        // 获取元素的data-value属性值
+        // 实例化组件
+        var example = new IosSelect(1,               // 第一个参数为级联层级，演示为1
+            [[{'id': '7', 'value': '七年级（初一）'}, {'id': '8', 'value': '八年级（初二）'}, {'id': '9', 'value': '九年级（初三）'}]],
+            {
+                container: '.container',             // 容器class
+                title: '选择年级',                    // 标题
+                itemHeight: 50,                      // 每个元素的高度
+                itemShowCount: 3,                    // 每一列显示元素个数，超出将隐藏
+                oneLevelId: val,                     // 第一级默认值
+                callback: function (selectOneObj) {  // 用户确认选择后的回调函数
+                    valDom.value = selectOneObj.id;
+                    showDom.innerHTML = selectOneObj.value;
+                    showDom.dataset['id'] = selectOneObj.id;
+                    showDom.dataset['value'] = selectOneObj.value;
+                }
+            });
+    });
+
+    var btnDom = document.querySelector('#submit');
+    btnDom.addEventListener('click', function () {
+        var release_date = document.querySelector('#release_date').value;
+        var grade_id = document.querySelector('#grade').value;
+        var img = document.querySelector('#img').value;
+        if (release_date === '' || release_date === null) {
+            alert('请选择日期！');
+            return;
+        }
+        if (grade_id === '' || grade_id === null) {
+            alert('请选择年级！');
+            return;
+        }
+        if (img === '' || img === null) {
+            alert("请上传每日一题图片！");
+            return;
+        }
+        document.querySelector('#create_exercise').submit();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>每日一题</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <h2>每日一题</h2>
+</div>
+<div style="padding-left: 20px;">
+    <label for="date">日期：</label><span id="date">{{ date }}</span>
+</div>
+<div style="padding-left: 20px;">
+    <label for="grade">所属年级：</label><span id="grade">{{ grade }}</span>
+    <span style="display: block; color: red;">长按可保存每日一题图片</span>
+</div>
+<div style="margin: 10px;">
+    <img src="{{ url_for('static', filename=img_path) }}" style="width: 100%">
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>学生档案登记</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='iosSelect/iosSelect.css') }}">
+    <script src="{{ url_for('static', filename='iosSelect/iosSelect.js') }}"></script>
+    <!--<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
+    <!--<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"/>-->
+    <style>
+        form {
+            width: 90%;
+            margin: 20px auto 0;
+        }
+
+        meter, input, .pc-box {
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            height: 36px;
+            line-height: 36px;
+            font-size: 16px;
+            padding-left: 10px;
+            box-sizing: border-box;
+        }
+
+        meter {
+            padding: 0;
+        }
+
+        .pc-box {
+            text-align: center;
+        }
+
+        .btn-box {
+            text-align: center;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            font-size: 18px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            padding: 5px 0;
+            background-color: #eeeeee;
+        }
+    </style>
+</head>
+<body>
+{% if error_msg %}
+<div style="text-align: center;">
+    <h3 style="color: red;">{{ error_msg }}</h3>
+</div>
+{% endif %}
+<form action="form_register" method="post" id="register_form">
+    <fieldset>
+        <legend>学生档案</legend>
+        <input type="hidden" name="user_id" value="{{ user_id }}">
+        <label for="student_name">学生姓名（必填）：</label>
+        <input type="text" name="student_name" id="student_name" autocomplete="off" autofocus placeholder="请输入学生姓名">
+        <label for="phone_num">手机号码（选填）：</label><input type="tel" name="phone_num" id="phone_num" placeholder="请输入手机号">
+        <label for="grade">所属年级（必选）：</label>
+        <div class="pc-box">
+            <input type="hidden" name="grade_id" id="grade" value="">
+            <span id="show_grade" class="select">点击选择年级</span>
+        </div>
+        <div class="btn-box">
+            <a id="submit" class="btn-submit btn-success">提交</a>
+        </div>
+    </fieldset>
+</form>
+</body>
+<script>
+    var showDom = document.querySelector('#show_grade');// 绑定一个触发元素
+    var valDom = document.querySelector('#grade');  // 绑定一个存储结果的元素
+    showDom.addEventListener('click', function () {  // 添加监听事件
+        var val = showDom.dataset['id'];             // 获取元素的data-id属性值
+        var title = showDom.dataset['value'];        // 获取元素的data-value属性值
+        // 实例化组件
+        var example = new IosSelect(1,               // 第一个参数为级联层级，演示为1
+            [[{'id': '7', 'value': '七年级（初一）'}, {'id': '8', 'value': '八年级（初二）'}, {'id': '9', 'value': '九年级（初三）'}]],
+            {
+                container: '.container',             // 容器class
+                title: '选择年级',                    // 标题
+                itemHeight: 50,                      // 每个元素的高度
+                itemShowCount: 3,                    // 每一列显示元素个数，超出将隐藏
+                oneLevelId: val,                     // 第一级默认值
+                callback: function (selectOneObj) {  // 用户确认选择后的回调函数
+                    valDom.value = selectOneObj.id;
+                    showDom.innerHTML = selectOneObj.value;
+                    showDom.dataset['id'] = selectOneObj.id;
+                    showDom.dataset['value'] = selectOneObj.value;
+                }
+            });
+    });
+
+    var btnDom = document.querySelector('#submit');
+    btnDom.addEventListener('click', function () {
+        var student_name = document.querySelector('#student_name').value;
+        var grade_id = document.querySelector('#grade').value;
+        var phone = document.querySelector('#phone_num').value;
+        if (student_name === '' || student_name === null) {
+            alert('请输入学生姓名！');
+            return;
+        }
+        if (grade_id === '' || grade_id === null) {
+            alert('请选择年级！');
+            return;
+        }
+        if (phone !== '' && phone !== null && !(/^1[34578]\d{9}$/.test(phone))) {
+            alert("手机号码有误，请重填");
+            return;
+        }
+        document.querySelector('#register_form').submit();
+    })
+</script>
+</html>
