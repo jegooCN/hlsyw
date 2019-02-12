@@ -37,6 +37,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - hlsyw_net
+    depends_on:
+      - nginx
+      - mysql
 
 networks:
   hlsyw_net:
