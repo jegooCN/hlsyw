@@ -11,8 +11,6 @@ services:
       - /opt/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - hlsyw_net
-    depends_on:
-      - hlsyw
 
   mysql:
     image: docker.io/mysql
@@ -39,8 +37,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - hlsyw_net
-    depends_on:
-      - mysql
 
 networks:
   hlsyw_net:
