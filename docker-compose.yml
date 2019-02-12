@@ -11,7 +11,6 @@ services:
       - /opt/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - hlsyw_net
-
   mysql:
     image: docker.io/mysql
     volumes:
@@ -26,7 +25,6 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
     networks:
       - hlsyw_net
-
   hlsyw:
     build:
       context: .
