@@ -125,11 +125,11 @@ def add_user(user_id, parent_name=None, student_name=None, wechat_name=None, gra
     新增用户
     :return:
     """
-    grade = Grade.get(grade_id)
+    # grade = Grade.get(grade_id)
     if not register_time:
         register_time = datetime.datetime.now()
     WechatUser.create_or_update(user_id=user_id, parent_name=parent_name, student_name=student_name,
-                                wechat_name=wechat_name, grade=grade, is_subscribe=is_subscribe,
+                                wechat_name=wechat_name, grade_id=grade_id, is_subscribe=is_subscribe,
                                 student_sex=student_sex, phone_num=phone_num, register_time=register_time,
                                 remark=remark)
 

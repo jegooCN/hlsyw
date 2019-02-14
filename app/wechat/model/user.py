@@ -36,7 +36,7 @@ class WechatUser(db.Model):
         return cls.query.all()
 
     @classmethod
-    def create_or_update(cls, user_id, parent_name=None, student_name=None, wechat_name=None, grade=None,
+    def create_or_update(cls, user_id, parent_name=None, student_name=None, wechat_name=None, grade_id=None,
                          is_subscribe='Y', student_sex=None, phone_num=None, register_time=None, remark=None):
         args = copy.deepcopy(locals())
         args.pop('cls')
