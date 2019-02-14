@@ -2,6 +2,7 @@
 """
     Created by Jegoo on 2019-02-12 13:24
 """
+import copy
 from app import db
 
 
@@ -35,13 +36,19 @@ class WechatUser(db.Model):
         return cls.query.all()
 
     @classmethod
-    def create(cls, user_id, parent_name=None, student_name=None, wechat_name=None, grade=None,
-               is_subscribe='Y', student_sex=None, phone_num=None, register_time=None, remark=None):
+    def create_or_update(cls, user_id, parent_name=None, student_name=None, wechat_name=None, grade=None,
+                         is_subscribe='Y', student_sex=None, phone_num=None, register_time=None, remark=None):
+        args = copy.deepcopy(locals())
+        args.pop('cls')
         with db.auto_commit():
-            user = cls(user_id=user_id, parent_name=parent_name, student_name=student_name,
-                       wechat_name=wechat_name, grade=grade, is_subscribe=is_subscribe, student_sex=student_sex,
-                       phone_num=phone_num, register_time=register_time, remark=remark)
-            db.session.add(user)
+            user = cls.get(user_id)
+            if user:
+                args.pop('user_id')
+                for k, v in args.items():
+                    setattr(user, k, v)
+            else:
+                user = cls(**args)
+                db.session.add(user)
             return True
 
     def change_subscribe_state(self, is_subscribe):
