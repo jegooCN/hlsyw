@@ -28,7 +28,7 @@ PyMySQL = "==0.9.3"
 SQLAlchemy = "==1.2.15"
 Flask = "==1.0.2"
 Flask-SQLAlchemy = "==2.3.2"
-Werkzeug = "==0.14.1"
+Werkzeug = "==0.15.3"
 
 [requires]
 python_version = "3.6"
